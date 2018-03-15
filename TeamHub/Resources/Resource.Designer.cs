@@ -41,6 +41,37 @@ namespace TeamHub
 			}
 		}
 		
+		public partial class Id
+		{
+			
+			// aapt resource value: 0x7f040004
+			public const int btninsert = 2130968580;
+			
+			// aapt resource value: 0x7f040003
+			public const int etPass = 2130968579;
+			
+			// aapt resource value: 0x7f040001
+			public const int etusername = 2130968577;
+			
+			// aapt resource value: 0x7f040000
+			public const int textView1 = 2130968576;
+			
+			// aapt resource value: 0x7f040002
+			public const int textView2 = 2130968578;
+			
+			// aapt resource value: 0x7f040005
+			public const int tvTips = 2130968581;
+			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Id()
+			{
+			}
+		}
+		
 		public partial class Layout
 		{
 			
