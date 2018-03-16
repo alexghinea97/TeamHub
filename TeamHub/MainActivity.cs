@@ -30,11 +30,7 @@ namespace TeamHub
 
         private void Btninsert_Click(object sender, System.EventArgs e)
         {
-
             InsertInfo(etusername.Text, etpass.Text);
-
-
-
         }
 
         void InsertInfo(string userPar, string passPar)
