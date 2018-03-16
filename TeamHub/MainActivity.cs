@@ -42,7 +42,6 @@ namespace TeamHub
                 if (conn.State == ConnectionState.Closed)
                 {
                     conn.Open();
-                    //tvTips.Text = " Successfully connected";
                     MySqlCommand cmd = new MySqlCommand("insert into THMembers(username,userpass) values(@user,@pass)", conn);
                     cmd.Parameters.AddWithValue("@user", userPar);
                     cmd.Parameters.AddWithValue("@pass", passPar);
