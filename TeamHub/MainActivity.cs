@@ -39,7 +39,7 @@ namespace TeamHub
 
         void InsertInfo(string userPar, string passPar)
         {
-            MySqlConnection conn = new MySqlConnection("server=db4free.net;port=3307;database=teamhub;user id=alexghinea97;password=teamhub123;charset=utf8");
+            MySqlConnection conn = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
 
             try
             {
@@ -47,7 +47,7 @@ namespace TeamHub
                 {
                     conn.Open();
                     //tvTips.Text = " Successfully connected";
-                    MySqlCommand cmd = new MySqlCommand("insert into testTest(username,userpass) values(@user,@pass)", conn);
+                    MySqlCommand cmd = new MySqlCommand("insert into THMembers(username,userpass) values(@user,@pass)", conn);
                     cmd.Parameters.AddWithValue("@user", userPar);
                     cmd.Parameters.AddWithValue("@pass", passPar);
                     cmd.ExecuteNonQuery();
