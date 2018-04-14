@@ -13,6 +13,7 @@ namespace TeamHub
         private EditText etpass;
         private Button btninsert;
         private TextView tvTips;
+        private Button btnSignin;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -24,11 +25,18 @@ namespace TeamHub
             etpass = FindViewById<EditText>(Resource.Id.etPass);
             btninsert = FindViewById<Button>(Resource.Id.btninsert);
             tvTips = FindViewById<TextView>(Resource.Id.tvTips);
+            btnSignin = FindViewById<Button>(Resource.Id.btnSignin);
 
             btninsert.Click += Btninsert_Click;
+            btnSignin.Click += OnClickBtnSignin;
         }
 
         private void Btninsert_Click(object sender, System.EventArgs e)
+        {
+            InsertInfo(etusername.Text, etpass.Text);
+        }
+
+        private void OnClickBtnSignin(object sender, System.EventArgs e)
         {
             InsertInfo(etusername.Text, etpass.Text);
         }
