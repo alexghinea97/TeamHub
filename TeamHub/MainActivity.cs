@@ -56,7 +56,6 @@ namespace TeamHub
                     cmd.ExecuteNonQuery();
                     tvTips.Text = "Successfully Signup";
                 }
-
             }
             catch (MySqlException ex)
             {
