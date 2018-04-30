@@ -9,17 +9,53 @@ namespace TeamHub
     [Activity(Label = "TeamHub", MainLauncher = true)]
     public class MainActivity : Activity
     {
-
+     
         private Button btnSignUp;
-
+        private Button btnLogIn;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.Main);
 
             btnSignUp = FindViewById<Button>(Resource.Id.btnSignup);
+            btnLogIn = FindViewById<Button>(Resource.Id.btnLogin);
             btnSignUp.Click += BtnSignUp_Click;
+            btnLogIn.Click += BtnLogIn_Click;
+        }
 
+        private void BtnLogIn_Click(object sender, System.EventArgs e)
+        {
+            EditText emailField = FindViewById<EditText>(Resource.Id.txtEmail);
+            EditText passwordField = FindViewById<EditText>(Resource.Id.txtPassword);
+            MySqlConnection conn = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT COUNT(*) FROM THMembers WHERE Username LIKE '" + emailField.Text + "' AND " +
+                    "Userpass LIKE '" + passwordField.Text + "'", conn);
+                System.Object var = cmd.ExecuteScalar();
+                if (var != null)
+                {
+                    int count = System.Convert.ToInt32(cmd.ExecuteScalar());
+                    if (count > 0)
+                    {
+                        AlertDialog.Builder alertLoginSucces = new AlertDialog.Builder(this);
+                        alertLoginSucces.SetMessage("Welcome !");
+                        alertLoginSucces.Show();
+                        StartActivityw(typeof(HomePageActivity));
+                    }
+                    else
+                    {
+                        AlertDialog.Builder alertLoginSucces = new AlertDialog.Builder(this);
+                        alertLoginSucces.SetMessage("The username or the password you have entered is not valid !");
+                        alertLoginSucces.Show();
+                    }
+
+                    cmd.ExecuteNonQuery();
+                    //tvTips.Text = "Successfully Signup";
+                }
+                conn.Close();
+            }
         }
 
         private void BtnSignUp_Click(object sender, System.EventArgs e)

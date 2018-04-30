@@ -44,32 +44,38 @@ namespace TeamHub
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f040008
-			public const int btnLogin = 2130968584;
+			// aapt resource value: 0x7f040003
+			public const int btnCancelSignUp = 2130968579;
+			
+			// aapt resource value: 0x7f04000a
+			public const int btnLogin = 2130968586;
 			
 			// aapt resource value: 0x7f040002
 			public const int btnSignUpLayout = 2130968578;
 			
-			// aapt resource value: 0x7f040009
-			public const int btnSignup = 2130968585;
-			
-			// aapt resource value: 0x7f040003
-			public const int textView1 = 2130968579;
+			// aapt resource value: 0x7f04000b
+			public const int btnSignup = 2130968587;
 			
 			// aapt resource value: 0x7f040004
-			public const int textViewEmail = 2130968580;
+			public const int button1 = 2130968580;
 			
 			// aapt resource value: 0x7f040006
-			public const int textViewPassword = 2130968582;
+			public const int textViewEmail = 2130968582;
+			
+			// aapt resource value: 0x7f040008
+			public const int textViewPassword = 2130968584;
 			
 			// aapt resource value: 0x7f040005
-			public const int txtEmail = 2130968581;
+			public const int title = 2130968581;
+			
+			// aapt resource value: 0x7f040007
+			public const int txtEmail = 2130968583;
 			
 			// aapt resource value: 0x7f040000
 			public const int txtEmailSup = 2130968576;
 			
-			// aapt resource value: 0x7f040007
-			public const int txtPassword = 2130968583;
+			// aapt resource value: 0x7f040009
+			public const int txtPassword = 2130968585;
 			
 			// aapt resource value: 0x7f040001
 			public const int txtPasswordSup = 2130968577;
@@ -91,7 +97,10 @@ namespace TeamHub
 			public const int DialogSignUpLayout = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int Main = 2130837505;
+			public const int HomePageLayout = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public const int Main = 2130837506;
 			
 			static Layout()
 			{

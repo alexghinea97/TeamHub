@@ -31,4 +31,12 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="40dp"
         android:layout_marginStart="40dp" />
+    <Button
+        android:text="Cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_marginStart="40dp"
+        android:id="@+id/btnCancelSignUp"
+        android:layout_marginTop="5dp" />
 </LinearLayout>
