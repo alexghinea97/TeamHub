@@ -44,29 +44,26 @@ namespace TeamHub
         private void BtnSignUp_Click(object sender, EventArgs e)
         {
             InsertInfo(etEmail.Text,etPassword.Text);
-
         }
 
         void InsertInfo(string userPar, string passPar)
         {
             MySqlConnection conn = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
 
-
             if (conn.State == ConnectionState.Closed)
             {
                 conn.Open();
-                MySqlCommand cmd2 = new MySqlCommand("SELECT COUNT(*) FROM THMembers WHERE Username LIKE '" + userPar + "' ", conn);
-                System.Object var = cmd2.ExecuteScalar();
-                if (var != null)
+                MySqlCommand checkUser = new MySqlCommand("SELECT COUNT(*) FROM THMembers WHERE Username LIKE '" + userPar + "' ", conn);
+                System.Object returnedValue = checkUser.ExecuteScalar();
+                if (returnedValue != null)
                 {
-                    int count = System.Convert.ToInt32(cmd2.ExecuteScalar());
+                    int count = System.Convert.ToInt32(checkUser.ExecuteScalar());
                     if (count == 0)
                     {
                         MySqlCommand cmd = new MySqlCommand("insert into THMembers(username,userpass) values(@user,@pass)", conn);
                         cmd.Parameters.AddWithValue("@user", userPar);
                         cmd.Parameters.AddWithValue("@pass", passPar);
                         cmd.ExecuteNonQuery();
-                        //tvTips.Text = "Successfully Signup";
                         AlertDialog.Builder alertRegisterSucces = new AlertDialog.Builder(this.Activity);
                         alertRegisterSucces.SetMessage("You have registered successfully !");
                         alertRegisterSucces.Show();
@@ -78,13 +75,9 @@ namespace TeamHub
                         alertRegisterSucces.SetMessage("The email you have entered already exists !");
                         alertRegisterSucces.Show();
                     }
-
                 }
                 conn.Close();
-                
             }
         } 
-            
-
     }
 }
