@@ -9,16 +9,15 @@ namespace TeamHub
     [Activity(Label = "TeamHub", MainLauncher = true)]
     public class MainActivity : Activity
     {
-     
         private Button btnSignUp;
         private Button btnLogIn;
+        
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.Main);
-
             btnSignUp = FindViewById<Button>(Resource.Id.btnSignup);
-            btnLogIn = FindViewById<Button>(Resource.Id.btnLogin);
+            btnLogIn = FindViewById<Button>(Resource.Id.btnLogin);       
             btnSignUp.Click += BtnSignUp_Click;
             btnLogIn.Click += BtnLogIn_Click;
         }
@@ -31,12 +30,12 @@ namespace TeamHub
             if (conn.State == ConnectionState.Closed)
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT COUNT(*) FROM THMembers WHERE Username LIKE '" + emailField.Text + "' AND " +
+                MySqlCommand checkUser = new MySqlCommand("SELECT COUNT(*) FROM THMembers WHERE Username LIKE '" + emailField.Text + "' AND " +
                     "Userpass LIKE '" + passwordField.Text + "'", conn);
-                System.Object var = cmd.ExecuteScalar();
-                if (var != null)
+                System.Object returnedValue = checkUser.ExecuteScalar();
+                if (returnedValue != null)
                 {
-                    int count = System.Convert.ToInt32(cmd.ExecuteScalar());
+                    int count = System.Convert.ToInt32(checkUser.ExecuteScalar());
                     if (count > 0)
                     {
                         AlertDialog.Builder alertLoginSucces = new AlertDialog.Builder(this);
@@ -50,9 +49,7 @@ namespace TeamHub
                         alertLoginSucces.SetMessage("The username or the password you have entered is not valid !");
                         alertLoginSucces.Show();
                     }
-
                     cmd.ExecuteNonQuery();
-                    //tvTips.Text = "Successfully Signup";
                 }
                 conn.Close();
             }
@@ -64,7 +61,5 @@ namespace TeamHub
             DialogSignUp dialogSup = new DialogSignUp();
             dialogSup.Show(transaction, "dialog fragment");
         }
-
     }
 }
-
