@@ -41,7 +41,7 @@ namespace TeamHub
                         AlertDialog.Builder alertLoginSucces = new AlertDialog.Builder(this);
                         alertLoginSucces.SetMessage("Welcome !");
                         alertLoginSucces.Show();
-                        StartActivityw(typeof(HomePageActivity));
+                        StartActivity(typeof(HomePageActivity));
                     }
                     else
                     {
@@ -49,7 +49,7 @@ namespace TeamHub
                         alertLoginSucces.SetMessage("The username or the password you have entered is not valid !");
                         alertLoginSucces.Show();
                     }
-                    cmd.ExecuteNonQuery();
+                    checkUser.ExecuteNonQuery();
                 }
                 conn.Close();
             }
