@@ -54,10 +54,10 @@ namespace TeamHub
                     int count = System.Convert.ToInt32(checkUser.ExecuteScalar());
                     if (count == 0)
                     {
-                        MySqlCommand cmd = new MySqlCommand("insert into THMembers(username,userpass) values(@user,@pass)", conn);
-                        cmd.Parameters.AddWithValue("@user", userPar);
-                        cmd.Parameters.AddWithValue("@pass", passPar);
-                        cmd.ExecuteNonQuery();
+                        MySqlCommand insertData = new MySqlCommand("insert into THMembers(username,userpass) values(@user,@pass)", conn);
+                        insertData.Parameters.AddWithValue("@user", userPar);
+                        insertData.Parameters.AddWithValue("@pass", passPar);
+                        insertData.ExecuteNonQuery();
                         AlertDialog.Builder alertRegisterSucces = new AlertDialog.Builder(this.Activity);
                         alertRegisterSucces.SetMessage("You have registered successfully !");
                         alertRegisterSucces.Show();
