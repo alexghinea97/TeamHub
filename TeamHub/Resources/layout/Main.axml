@@ -25,11 +25,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/etPass" />
     <Button
-        android:text="Signin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSignin" />
-    <Button
         android:text="Signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
