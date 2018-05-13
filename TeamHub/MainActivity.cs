@@ -3,6 +3,7 @@ using Android.Widget;
 using Android.OS;
 using System.Data;
 using MySql.Data.MySqlClient;
+using System;
 
 namespace TeamHub
 {
@@ -17,41 +18,49 @@ namespace TeamHub
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.Main);
             btnSignUp = FindViewById<Button>(Resource.Id.btnSignup);
-            btnLogIn = FindViewById<Button>(Resource.Id.btnLogin);       
+            btnLogIn = FindViewById<Button>(Resource.Id.btnLogin);
             btnSignUp.Click += BtnSignUp_Click;
             btnLogIn.Click += BtnLogIn_Click;
         }
 
         private void BtnLogIn_Click(object sender, System.EventArgs e)
         {
-            EditText emailField = FindViewById<EditText>(Resource.Id.txtEmail);
-            EditText passwordField = FindViewById<EditText>(Resource.Id.txtPassword);
-            MySqlConnection conn = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
-            if (conn.State == ConnectionState.Closed)
+            try
             {
-                conn.Open();
-                MySqlCommand checkUser = new MySqlCommand("SELECT COUNT(*) FROM THMembers WHERE Username LIKE '" + emailField.Text + "' AND " +
-                    "Userpass LIKE '" + passwordField.Text + "'", conn);
-                System.Object returnedValue = checkUser.ExecuteScalar();
-                if (returnedValue != null)
+                EditText emailField = FindViewById<EditText>(Resource.Id.txtEmail);
+                EditText passwordField = FindViewById<EditText>(Resource.Id.txtPassword);
+                const string ConnectionString = "Server=db4free.net;Port=3307;database=teamhubunibuc;User id=teamhubunibuc;Password=teamhubunibuc;charset=utf8";
+                MySqlConnection conn = new MySqlConnection(ConnectionString);
+                if (conn.State == ConnectionState.Closed)
                 {
-                    int count = System.Convert.ToInt32(checkUser.ExecuteScalar());
-                    if (count > 0)
+                    conn.Open();
+                    MySqlCommand checkUser = new MySqlCommand("SELECT COUNT(*) FROM THMembers WHERE Username LIKE '" + emailField.Text + "' AND " +
+                        "Userpass LIKE '" + passwordField.Text + "'", conn);
+                    System.Object returnedValue = checkUser.ExecuteScalar();
+                    if (returnedValue != null)
                     {
-                        AlertDialog.Builder alertLoginSucces = new AlertDialog.Builder(this);
-                        alertLoginSucces.SetMessage("Welcome !");
-                        alertLoginSucces.Show();
-                        StartActivity(typeof(HomePageActivity));
+                        int count = System.Convert.ToInt32(checkUser.ExecuteScalar());
+                        if (count > 0)
+                        {
+                            AlertDialog.Builder alertLoginSucces = new AlertDialog.Builder(this);
+                            alertLoginSucces.SetMessage("Welcome !");
+                            alertLoginSucces.Show();
+                            StartActivity(typeof(HomePageActivity));
+                        }
+                        else
+                        {
+                            AlertDialog.Builder alertLoginSucces = new AlertDialog.Builder(this);
+                            alertLoginSucces.SetMessage("The username or the password you have entered is not valid !");
+                            alertLoginSucces.Show();
+                        }
+                        checkUser.ExecuteNonQuery();
                     }
-                    else
-                    {
-                        AlertDialog.Builder alertLoginSucces = new AlertDialog.Builder(this);
-                        alertLoginSucces.SetMessage("The username or the password you have entered is not valid !");
-                        alertLoginSucces.Show();
-                    }
-                    checkUser.ExecuteNonQuery();
+                    conn.Close();
                 }
-                conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
