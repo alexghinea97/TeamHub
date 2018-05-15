@@ -3,6 +3,7 @@ using Android.Widget;
 using Android.OS;
 using System.Data;
 using MySql.Data.MySqlClient;
+using Android.Content;
 
 namespace TeamHub
 {
@@ -37,11 +38,16 @@ namespace TeamHub
                 {
                     int count = System.Convert.ToInt32(checkUser.ExecuteScalar());
                     if (count > 0)
-                    {
+                    {    
                         AlertDialog.Builder alertLoginSucces = new AlertDialog.Builder(this);
                         alertLoginSucces.SetMessage("Welcome !");
                         alertLoginSucces.Show();
-                        StartActivity(typeof(HomePageActivity));
+                        MySqlCommand getIdUser = new MySqlCommand("SELECT id_member FROM THMembers WHERE Username LIKE '" + emailField.Text + "' AND " +
+                        "Userpass LIKE '" + passwordField.Text + "'", conn);
+                        int userId = System.Convert.ToInt32(getIdUser.ExecuteScalar());
+                        Intent changeActivity = new Intent(this,typeof(HomePageActivity));
+                        changeActivity.PutExtra("idMember",userId);
+                        StartActivity(changeActivity);
                     }
                     else
                     {
