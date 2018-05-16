@@ -173,6 +173,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DialogSignUp.cs" />
+    <Compile Include="Fragments\Fragment_add_member.cs" />
+    <Compile Include="Fragments\Fragment_backlog.cs" />
+    <Compile Include="Fragments\Fragment_create_task.cs" />
+    <Compile Include="Fragments\Fragment_create_project.cs" />
+    <Compile Include="Fragments\Fragment_done.cs" />
+    <Compile Include="Fragments\Fragment_in_development.cs" />
+    <Compile Include="Fragments\Fragment_in_review.cs" />
+    <Compile Include="Fragments\Fragment_in_testing.cs" />
+    <Compile Include="Fragments\Fragment_members.cs" />
+    <Compile Include="Fragments\Fragment_projects.cs" />
     <Compile Include="HomePageActionBarDrawerToggle.cs" />
     <Compile Include="HomePageActivity.cs" />
     <Compile Include="MainActivity.cs" />
@@ -190,6 +200,36 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\HomePageLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_create_project_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_add_member_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_create_task_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_projects_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_members_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_backlog_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_in_development_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_in_testing_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_done_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Fragment_in_review_layout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
