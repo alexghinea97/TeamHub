@@ -22,7 +22,6 @@ namespace TeamHub
         private ArrayAdapter<string> rightMenuAdapter;
         private List<string> leftMenuDataSet;
         private List<string> rightMenuDataSet;
-        private int id;
         private SupportFragment currentFragment;
         private Fragments.Fragment_projects fragmentProjects;
         private Fragments.Fragment_backlog fragmentBacklog;
@@ -62,7 +61,6 @@ namespace TeamHub
             currentFragment = fragmentProjects;
             transaction.Commit();
 
-            int userId = Intent.GetIntExtra("idMember", -1);
             hToolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             hDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             hRightDrawer = FindViewById<ListView>(Resource.Id.right_drawer);

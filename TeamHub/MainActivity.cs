@@ -12,6 +12,7 @@ namespace TeamHub
     {
         private Button btnSignUp;
         private Button btnLogIn;
+        public static int user_id;
         
         protected override void OnCreate(Bundle bundle)
         {
@@ -44,9 +45,9 @@ namespace TeamHub
                         alertLoginSucces.Show();
                         MySqlCommand getIdUser = new MySqlCommand("SELECT id_member FROM THMembers WHERE Username LIKE '" + emailField.Text + "' AND " +
                         "Userpass LIKE '" + passwordField.Text + "'", conn);
-                        int userId = System.Convert.ToInt32(getIdUser.ExecuteScalar());
+                        user_id = System.Convert.ToInt32(getIdUser.ExecuteScalar());
                         Intent changeActivity = new Intent(this,typeof(HomePageActivity));
-                        changeActivity.PutExtra("idMember",userId);
+                        //changeActivity.PutExtra("idMember",userId);
                         StartActivity(changeActivity);
                     }
                     else
