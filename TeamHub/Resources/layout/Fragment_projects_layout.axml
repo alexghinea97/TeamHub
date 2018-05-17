@@ -6,9 +6,17 @@
     android:minWidth="25px"
     android:minHeight="25px">
     <TextView
-        android:text="PROJECTS"
+        android:text="Projects and Teams"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1" />
+        android:id="@+id/txtTitle"
+        android:gravity="center"
+        android:layout_marginTop="15dp" />
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listViewProiecte" />
 </LinearLayout>
