@@ -8,15 +8,24 @@ using MySql.Data.MySqlClient;
 
 namespace TeamHub.Fragments
 {
-    //public static 
     public class Fragment_projects : Android.Support.V4.App.Fragment
     {
         private ListView listViewProjects;
         private List<String> projectList;
         private ArrayAdapter<String> listAdapter;
+        public static String returnedTeamName;
+        public static String returnedProjectName;
+        public static bool valuesChanged = false;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
+            System.Diagnostics.Debug.WriteLine(returnedProjectName);
+            if (valuesChanged)
+            {
+                listAdapter.Add("Project : " + returnedProjectName + " by team " + returnedTeamName);
+                listAdapter.NotifyDataSetChanged();
+            }
+            valuesChanged = false;
             base.OnCreate(savedInstanceState);
         }
 
@@ -37,9 +46,8 @@ namespace TeamHub.Fragments
                 foreach (DataRow row in data.Rows)
                 {
                     numeEchipa = row["TeamName"].ToString();
-                    projectList.Add(numeEchipa);
                     numeProiect = row["ProjectName"].ToString();
-                    projectList.Add(numeProiect);
+                    projectList.Add("Project :" + numeProiect + " - team " + numeEchipa);
                 }
                 conn.Close();
             }

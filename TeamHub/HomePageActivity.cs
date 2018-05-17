@@ -60,7 +60,7 @@ namespace TeamHub
             transaction.Add(Resource.Id.fragmentContainer, fragmentProjects, "Projects");
             currentFragment = fragmentProjects;
             transaction.Commit();
-
+           
             hToolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             hDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             hRightDrawer = FindViewById<ListView>(Resource.Id.right_drawer);
@@ -118,6 +118,7 @@ namespace TeamHub
                 case 0:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentProjects);
+                    fragmentProjects.OnCreate(null);
                     break;
                 case 1:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);

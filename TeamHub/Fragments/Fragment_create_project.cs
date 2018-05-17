@@ -67,6 +67,9 @@ namespace TeamHub.Fragments
                         AlertDialog.Builder alertRegisterSucces = new AlertDialog.Builder(this.Activity);
                         alertRegisterSucces.SetMessage("You have added a Team and a Project successfully !");
                         alertRegisterSucces.Show();
+                        Fragment_projects.returnedTeamName = numeEchipa;
+                        Fragment_projects.returnedProjectName = numeProiect;
+                        Fragment_projects.valuesChanged = true;
                         this.Dismiss();
                     }
                     else
