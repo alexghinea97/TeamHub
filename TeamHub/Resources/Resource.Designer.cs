@@ -1960,6 +1960,9 @@ namespace TeamHub
 			// aapt resource value: 0x7f0a003b
 			public const int default_activity_button = 2131361851;
 			
+			// aapt resource value: 0x7f0a0095
+			public const int deleteTeam = 2131361941;
+			
 			// aapt resource value: 0x7f0a0012
 			public const int disableHome = 2131361810;
 			
@@ -2121,6 +2124,9 @@ namespace TeamHub
 			
 			// aapt resource value: 0x7f0a0064
 			public const int search_voice_btn = 2131361892;
+			
+			// aapt resource value: 0x7f0a0094
+			public const int selectTeam = 2131361940;
 			
 			// aapt resource value: 0x7f0a0065
 			public const int select_dialog_listview = 2131361893;
@@ -2481,6 +2487,9 @@ namespace TeamHub
 			
 			// aapt resource value: 0x7f0c0000
 			public const int menu_add_items = 2131492864;
+			
+			// aapt resource value: 0x7f0c0001
+			public const int popup_menu_items = 2131492865;
 			
 			static Menu()
 			{
