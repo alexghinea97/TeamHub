@@ -30,6 +30,7 @@ namespace TeamHub
         private Fragments.Fragment_in_testing fragmentInTesting;
         private Fragments.Fragment_in_review fragmentInReview;
         private Fragments.Fragment_done fragmentDone;
+        private object fragmentCurent;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,6 +44,7 @@ namespace TeamHub
             fragmentInReview = new Fragments.Fragment_in_review();
             fragmentInTesting = new Fragments.Fragment_in_testing();
             fragmentDone = new Fragments.Fragment_done();
+            fragmentCurent = fragmentProjects;
 
             var transaction = SupportFragmentManager.BeginTransaction();
             transaction.Add(Resource.Id.fragmentContainer, fragmentDone, "Done");
@@ -119,30 +121,37 @@ namespace TeamHub
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentProjects);
                     fragmentProjects.OnCreate(null);
+                    fragmentCurent = fragmentProjects;
                     break;
                 case 1:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentMembers);
+                    fragmentCurent = fragmentMembers;
                     break;
                 case 2:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentBacklog);
+                    fragmentCurent = fragmentBacklog;
                     break;
                 case 3:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentInDevelopment);
+                    fragmentCurent = fragmentInDevelopment;
                     break;
                 case 4:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentInReview);
+                    fragmentCurent = fragmentInReview;
                     break;
                 case 5:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentInTesting);
+                    fragmentCurent = fragmentInTesting;
                     break;
                 case 6:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentDone);
+                    fragmentCurent = fragmentDone;
                     break;
                 default: throw new System.NotImplementedException();
             }
@@ -157,17 +166,20 @@ namespace TeamHub
                 case 0:
                     hDrawerLayout.CloseDrawer(hRightDrawer);
                     Fragments.Fragment_create_project dialogCreateProject = new Fragments.Fragment_create_project();
-                    dialogCreateProject.Show(transaction, "dialog fragment");
+                    if (fragmentCurent.GetType() == typeof(Fragments.Fragment_projects))
+                        dialogCreateProject.Show(transaction, "dialog fragment");
                     break;
                 case 1:
                     hDrawerLayout.CloseDrawer(hRightDrawer);
                     Fragments.Fragment_add_member dialogAddMember = new Fragments.Fragment_add_member();
-                    dialogAddMember.Show(transaction, "dialog fragment");
+                    if (fragmentCurent.GetType() == typeof(Fragments.Fragment_members))
+                        dialogAddMember.Show(transaction, "dialog fragment");
                     break;
                 case 2:
                     hDrawerLayout.CloseDrawer(hRightDrawer);
                     Fragments.Fragment_create_task dialogCreateTask = new Fragments.Fragment_create_task();
-                    dialogCreateTask.Show(transaction, "dialog fragment");
+                    if (fragmentCurent.GetType() == typeof(Fragments.Fragment_backlog))
+                        dialogCreateTask.Show(transaction, "dialog fragment");
                     break;
                 default: throw new System.NotImplementedException();
             }

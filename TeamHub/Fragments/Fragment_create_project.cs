@@ -40,36 +40,39 @@ namespace TeamHub.Fragments
         private void InsertInfo(string numeEchipa, string numeProiect)
         {
             MySqlConnection conn = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
-            if(conn.State == ConnectionState.Closed)
+            if (conn.State == ConnectionState.Closed)
             {
                 conn.Open();
-                MySqlCommand checkTeam = new MySqlCommand("SELECT COUNT(*) FROM THTeams WHERE TeamName LIKE '" + numeEchipa + "' AND ProjectName LIKE '" + numeProiect + "' ", conn);
+                MySqlCommand checkTeam = new MySqlCommand("SELECT COUNT(*) FROM THTeams WHERE TeamName LIKE '" + numeEchipa + "' AND ProjectName LIKE '" + numeProiect + "' ;", conn);
                 System.Object returnedValue = checkTeam.ExecuteScalar();
                 if (returnedValue != null)
                 {
                     int nr = System.Convert.ToInt32(returnedValue);
-                    if (nr ==0)
+                    if (nr == 0)
                     {
                         MySqlCommand insertData = new MySqlCommand("insert into THTeams(TeamName,ProjectName,id_manager) values(@teamName,@projectName,@idmanager);", conn);
                         insertData.Parameters.AddWithValue("@teamName", numeEchipa);
                         insertData.Parameters.AddWithValue("@projectName", numeProiect);
                         insertData.Parameters.AddWithValue("@idmanager", MainActivity.user_id);
                         insertData.ExecuteNonQuery();
+                        //Add team in THMembers_on_teams
+                        MySqlCommand selectTeamID = new MySqlCommand("SELECT id_team FROM THTeams WHERE TeamName LIKE '" + numeEchipa + "';", conn);
+                        System.Object objTeamID = selectTeamID.ExecuteScalar();
+                        int TeamID = System.Convert.ToInt32(objTeamID);
 
-                        MySqlCommand getTeamId = new MySqlCommand("SELECT id_team FROM THTeams WHERE TeamName LIKE '" + numeEchipa + "' ;", conn);
-                        System.Object checkTeamId = getTeamId.ExecuteScalar();
-                        if (checkTeamId != null)
-                        {
-                            int TeamId = System.Convert.ToInt32(checkTeamId);
-                            MySqlCommand updateMember = new MySqlCommand("UPDATE THMembers SET id_team = " + TeamId + " WHERE id_member = " + MainActivity.user_id +" ;", conn);
-                            updateMember.ExecuteNonQuery();
-                        }
+                        MySqlCommand addToMembers_on_teams = new MySqlCommand("INSERT INTO THMembers_on_teams(id_member, id_team) values(@idMember,@idTeam);", conn);
+                        addToMembers_on_teams.Parameters.AddWithValue("@idMember", MainActivity.user_id);
+                        addToMembers_on_teams.Parameters.AddWithValue("@idTeam", TeamID);
+                        addToMembers_on_teams.ExecuteNonQuery();
+
+                        /*MySqlCommand addToMembers_with_managers = new MySqlCommand("INSERT INTO THMembers_with_managers(id_member, id_manager) values(@idMember,@idManager);", conn);
+                        addToMembers_with_managers.Parameters.AddWithValue("@idMember", MainActivity.user_id);
+                        addToMembers_with_managers.Parameters.AddWithValue("@idManager", MainActivity.user_id);
+                        addToMembers_with_managers.ExecuteNonQuery();*/
+
                         AlertDialog.Builder alertRegisterSucces = new AlertDialog.Builder(this.Activity);
                         alertRegisterSucces.SetMessage("You have added a Team and a Project successfully !");
                         alertRegisterSucces.Show();
-                        Fragment_projects.returnedTeamName = numeEchipa;
-                        Fragment_projects.returnedProjectName = numeProiect;
-                        Fragment_projects.valuesChanged = true;
                         this.Dismiss();
                     }
                     else

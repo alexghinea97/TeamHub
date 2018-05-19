@@ -54,7 +54,7 @@ namespace TeamHub.Fragments
                     if (conn.State == ConnectionState.Closed)
                     {
                         conn.Open();
-                        MySqlCommand getProjects = new MySqlCommand("SELECT id_team FROM THTeams", conn);
+                        MySqlCommand getProjects = new MySqlCommand("SELECT id_team FROM THTeams;", conn);
                         MySqlDataAdapter adapter = new MySqlDataAdapter(getProjects);
                         adapter.Fill(data);
                         foreach (DataRow row in data.Rows)
@@ -90,7 +90,7 @@ namespace TeamHub.Fragments
             if (conn.State == ConnectionState.Closed)
             {
                 conn.Open();
-                MySqlCommand getProjects = new MySqlCommand("SELECT TeamName,ProjectName FROM THTeams", conn);
+                MySqlCommand getProjects = new MySqlCommand("SELECT TeamName,ProjectName FROM THTeams where id_manager = " + MainActivity.user_id + " ;", conn);
                 MySqlDataAdapter adapter = new MySqlDataAdapter(getProjects);
                 adapter.Fill(data);
                 String numeProiect, numeEchipa;
@@ -98,7 +98,7 @@ namespace TeamHub.Fragments
                 {
                     numeEchipa = row["TeamName"].ToString();
                     numeProiect = row["ProjectName"].ToString();
-                    projectList.Add("Project :" + numeProiect + " - team " + numeEchipa);
+                    projectList.Add("Project : " + numeProiect + " - Team : " + numeEchipa);
                 }
                 conn.Close();
             }

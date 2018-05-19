@@ -46,15 +46,40 @@ namespace TeamHub.Fragments
             MySqlConnection conn = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
             if (conn.State == ConnectionState.Closed)
             {
-                conn.Open();
-                MySqlCommand insertTask = new MySqlCommand("insert into THTasks(task_name) values(@taskName);", conn);
-                insertTask.Parameters.AddWithValue("@taskName", numeTask);
-                insertTask.ExecuteNonQuery();
-                AlertDialog.Builder alertTaskCreateSucces = new AlertDialog.Builder(this.Activity);
-                alertTaskCreateSucces.SetMessage("You have created a Task successfully !");
-                alertTaskCreateSucces.Show();
-                this.Dismiss();
-                conn.Close();
+                if (Fragment_projects.idTeamSelected != -1)
+                {
+                    conn.Open();
+
+                    MySqlCommand checkIfTaskExists = new MySqlCommand("SELECT COUNT(*) FROM THTasks where task_name LIKE '" + numeTask + "' and id_team = " + Fragment_projects.idTeamSelected + " ;", conn);
+                    System.Object objNoTasksExistent = checkIfTaskExists.ExecuteScalar();
+                    int noTasksExistent = System.Convert.ToInt32(objNoTasksExistent);
+                    if(noTasksExistent == 0)
+                    {
+                        MySqlCommand insertTask = new MySqlCommand("insert into THTasks(task_name, id_team) values(@taskName, @idTeam);", conn);
+                        insertTask.Parameters.AddWithValue("@taskName", numeTask);
+                        insertTask.Parameters.AddWithValue("@idTeam", Fragment_projects.idTeamSelected);
+                        insertTask.ExecuteNonQuery();
+                        AlertDialog.Builder alertTaskCreateSucces = new AlertDialog.Builder(this.Activity);
+                        alertTaskCreateSucces.SetMessage("You have created a Task successfully !");
+                        alertTaskCreateSucces.Show();
+                        this.Dismiss();
+                        conn.Close();
+                    }
+                    else
+                    {
+                        AlertDialog.Builder alertTaskCreateFailed = new AlertDialog.Builder(this.Activity);
+                        alertTaskCreateFailed.SetMessage("The task already exists !");
+                        alertTaskCreateFailed.Show();
+                        this.Dismiss();
+                    }
+                }
+                else
+                {
+                    AlertDialog.Builder alertTaskSelectTeam = new AlertDialog.Builder(this.Activity);
+                    alertTaskSelectTeam.SetMessage("You need to select a team first !");
+                    alertTaskSelectTeam.Show();
+                    this.Dismiss();
+                }
             }
         }
     }
