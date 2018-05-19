@@ -50,6 +50,8 @@ namespace TeamHub.Fragments
                 MySqlCommand insertTask = new MySqlCommand("insert into THTasks(task_name) values(@taskName);", conn);
                 insertTask.Parameters.AddWithValue("@taskName", numeTask);
                 insertTask.ExecuteNonQuery();
+                Fragment_backlog.valuesChanged = true;
+                Fragment_backlog.returnedTaskName = numeTask;
                 AlertDialog.Builder alertTaskCreateSucces = new AlertDialog.Builder(this.Activity);
                 alertTaskCreateSucces.SetMessage("You have created a Task successfully !");
                 alertTaskCreateSucces.Show();

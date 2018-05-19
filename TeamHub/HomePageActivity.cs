@@ -127,6 +127,7 @@ namespace TeamHub
                 case 2:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentBacklog);
+                    fragmentBacklog.OnCreate(null);
                     break;
                 case 3:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
