@@ -10,7 +10,7 @@ using SupportFragment = Android.Support.V4.App.Fragment;
 
 namespace TeamHub
 {
-    [Activity(Label = "HomePageActivity", Theme = "@style/MyTheme")]
+    [Activity(Label = "TeamHub", Theme = "@style/MyTheme")]
     public class HomePageActivity : AppCompatActivity
     {
         private Android.Support.V7.Widget.Toolbar hToolbar;
@@ -45,7 +45,7 @@ namespace TeamHub
             fragmentInTesting = new Fragments.Fragment_in_testing();
             fragmentDone = new Fragments.Fragment_done();
             fragmentCurent = fragmentProjects;
-
+       
             var transaction = SupportFragmentManager.BeginTransaction();
             transaction.Add(Resource.Id.fragmentContainer, fragmentDone, "Done");
             transaction.Hide(fragmentDone);
@@ -68,7 +68,7 @@ namespace TeamHub
             hRightDrawer = FindViewById<ListView>(Resource.Id.right_drawer);
             hLeftDrawer = FindViewById<ListView>(Resource.Id.left_drawer);
             SetSupportActionBar(hToolbar);
-
+           
             rightMenuDataSet = new List<string>();
             rightMenuDataSet.Add("Create Project and Team");
             rightMenuDataSet.Add("Add member");
@@ -89,12 +89,12 @@ namespace TeamHub
 
             hLeftDrawer.ItemClick += HLeftDrawer_ItemClick;
             hRightDrawer.ItemClick += HRightDrawer_ItemClick;
-
+            
             hDrawerToggle = new HomePageActionBarDrawerToggle(
                 this,
                 hDrawerLayout,
-                Resource.String.openedDrawer,
-                Resource.String.closedDrawer
+                Resource.String.app_name,
+                Resource.String.app_name
             );
             hDrawerLayout.AddDrawerListener(hDrawerToggle);
             SupportActionBar.SetHomeButtonEnabled(true);

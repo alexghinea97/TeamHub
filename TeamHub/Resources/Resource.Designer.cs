@@ -2627,12 +2627,6 @@ namespace TeamHub
 			// aapt resource value: 0x7f05001f
 			public const int app_name = 2131034143;
 			
-			// aapt resource value: 0x7f050021
-			public const int closedDrawer = 2131034145;
-			
-			// aapt resource value: 0x7f050020
-			public const int openedDrawer = 2131034144;
-			
 			// aapt resource value: 0x7f050011
 			public const int search_menu_title = 2131034129;
 			

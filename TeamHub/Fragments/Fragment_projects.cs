@@ -53,7 +53,7 @@ namespace TeamHub.Fragments
                     if (conn.State == ConnectionState.Closed)
                     {
                         conn.Open();
-                        MySqlCommand getProjects = new MySqlCommand("SELECT id_team FROM THTeams;", conn);
+                        MySqlCommand getProjects = new MySqlCommand("SELECT id_team,TeamName FROM THTeams;", conn);
                         MySqlDataAdapter adapter = new MySqlDataAdapter(getProjects);
                         adapter.Fill(data);
                         foreach (DataRow row in data.Rows)
