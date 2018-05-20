@@ -76,6 +76,8 @@ namespace TeamHub.Fragments
                             AlertDialog.Builder alertTaskCreateSucces = new AlertDialog.Builder(this.Activity);
                             alertTaskCreateSucces.SetMessage("You have added a member !");
                             alertTaskCreateSucces.Show();
+                            Fragment_members.returnedMemberName = etMemberEmail.Text;
+                            Fragment_members.valuesChanged = true;
                             this.Dismiss();
                         }
                         else

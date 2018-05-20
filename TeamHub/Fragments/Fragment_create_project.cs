@@ -70,6 +70,10 @@ namespace TeamHub.Fragments
                         addToMembers_with_managers.Parameters.AddWithValue("@idManager", MainActivity.user_id);
                         addToMembers_with_managers.ExecuteNonQuery();*/
 
+                        Fragment_projects.returnedProjectName = numeProiect;
+                        Fragment_projects.returnedTeamName = numeEchipa;
+                        Fragment_projects.valuesChanged = true;
+
                         AlertDialog.Builder alertRegisterSucces = new AlertDialog.Builder(this.Activity);
                         alertRegisterSucces.SetMessage("You have added a Team and a Project successfully !");
                         alertRegisterSucces.Show();

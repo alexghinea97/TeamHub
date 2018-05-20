@@ -40,7 +40,6 @@ namespace TeamHub.Fragments
             popup.Inflate(Resource.Menu.popup_menu_items);
             popup.MenuItemClick += Popup_MenuItemClick;
             popup.Show();
-            
         }
 
         private void Popup_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)

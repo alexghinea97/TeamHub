@@ -62,6 +62,8 @@ namespace TeamHub.Fragments
                         AlertDialog.Builder alertTaskCreateSucces = new AlertDialog.Builder(this.Activity);
                         alertTaskCreateSucces.SetMessage("You have created a Task successfully !");
                         alertTaskCreateSucces.Show();
+                        Fragment_backlog.returnedTaskName = numeTask;
+                        Fragment_backlog.valuesChanged = true;
                         this.Dismiss();
                         conn.Close();
                     }

@@ -126,11 +126,13 @@ namespace TeamHub
                 case 1:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentMembers);
+                    fragmentMembers.OnCreate(null);
                     fragmentCurent = fragmentMembers;
                     break;
                 case 2:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentBacklog);
+                    fragmentBacklog.OnCreate(null);
                     fragmentCurent = fragmentBacklog;
                     break;
                 case 3:
