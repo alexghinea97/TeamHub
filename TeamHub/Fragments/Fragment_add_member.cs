@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MySql.Data.MySqlClient;
@@ -76,8 +70,6 @@ namespace TeamHub.Fragments
                             AlertDialog.Builder alertTaskCreateSucces = new AlertDialog.Builder(this.Activity);
                             alertTaskCreateSucces.SetMessage("You have added a member !");
                             alertTaskCreateSucces.Show();
-                            Fragment_members.returnedMemberName = etMemberEmail.Text;
-                            Fragment_members.valuesChanged = true;
                             this.Dismiss();
                         }
                         else
@@ -87,15 +79,6 @@ namespace TeamHub.Fragments
                             alertTaskCreateSucces.Show();
                             this.Dismiss();
                         }
-                        //}
-                        //else
-                        /*{
-                            AlertDialog.Builder alertTaskCreateSucces = new AlertDialog.Builder(this.Activity);
-                            alertTaskCreateSucces.SetMessage("The member has a team !");
-                            alertTaskCreateSucces.Show();
-                            this.Dismiss();
-                        }*/
-                        //}
                     }
                     else
                     {

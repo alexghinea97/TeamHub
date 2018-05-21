@@ -55,25 +55,13 @@ namespace TeamHub.Fragments
                         insertData.Parameters.AddWithValue("@projectName", numeProiect);
                         insertData.Parameters.AddWithValue("@idmanager", MainActivity.user_id);
                         insertData.ExecuteNonQuery();
-                        //Add team in THMembers_on_teams
                         MySqlCommand selectTeamID = new MySqlCommand("SELECT id_team FROM THTeams WHERE TeamName LIKE '" + numeEchipa + "';", conn);
                         System.Object objTeamID = selectTeamID.ExecuteScalar();
                         int TeamID = System.Convert.ToInt32(objTeamID);
-
                         MySqlCommand addToMembers_on_teams = new MySqlCommand("INSERT INTO THMembers_on_teams(id_member, id_team) values(@idMember,@idTeam);", conn);
                         addToMembers_on_teams.Parameters.AddWithValue("@idMember", MainActivity.user_id);
                         addToMembers_on_teams.Parameters.AddWithValue("@idTeam", TeamID);
                         addToMembers_on_teams.ExecuteNonQuery();
-
-                        /*MySqlCommand addToMembers_with_managers = new MySqlCommand("INSERT INTO THMembers_with_managers(id_member, id_manager) values(@idMember,@idManager);", conn);
-                        addToMembers_with_managers.Parameters.AddWithValue("@idMember", MainActivity.user_id);
-                        addToMembers_with_managers.Parameters.AddWithValue("@idManager", MainActivity.user_id);
-                        addToMembers_with_managers.ExecuteNonQuery();*/
-
-                        Fragment_projects.returnedProjectName = numeProiect;
-                        Fragment_projects.returnedTeamName = numeEchipa;
-                        Fragment_projects.valuesChanged = true;
-
                         AlertDialog.Builder alertRegisterSucces = new AlertDialog.Builder(this.Activity);
                         alertRegisterSucces.SetMessage("You have added a Team and a Project successfully !");
                         alertRegisterSucces.Show();

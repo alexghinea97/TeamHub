@@ -1,5 +1,4 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
@@ -14,7 +13,7 @@ namespace TeamHub
     public class HomePageActivity : AppCompatActivity
     {
         private Android.Support.V7.Widget.Toolbar hToolbar;
-        private HomePageActionBarDrawerToggle hDrawerToggle;
+        private HomePageActionBarDrawerToggle hDrawerToggle;    
         private DrawerLayout hDrawerLayout;
         private ListView hLeftDrawer;
         private ListView hRightDrawer;
@@ -120,19 +119,19 @@ namespace TeamHub
                 case 0:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentProjects);
-                    fragmentProjects.OnCreate(null);
+                    fragmentProjects.AfiseazaEchipe();
                     fragmentCurent = fragmentProjects;
                     break;
                 case 1:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentMembers);
-                    fragmentMembers.OnCreate(null);
+                    fragmentMembers.AfisareMembrii();
                     fragmentCurent = fragmentMembers;
                     break;
                 case 2:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentBacklog);
-                    fragmentBacklog.OnCreate(null);
+                    fragmentBacklog.AfiseazaTask();
                     fragmentCurent = fragmentBacklog;
                     break;
                 case 3:

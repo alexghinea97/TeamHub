@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MySql.Data.MySqlClient;
@@ -49,7 +43,6 @@ namespace TeamHub.Fragments
                 if (Fragment_projects.idTeamSelected != -1)
                 {
                     conn.Open();
-
                     MySqlCommand checkIfTaskExists = new MySqlCommand("SELECT COUNT(*) FROM THTasks where task_name LIKE '" + numeTask + "' and id_team = " + Fragment_projects.idTeamSelected + " ;", conn);
                     System.Object objNoTasksExistent = checkIfTaskExists.ExecuteScalar();
                     int noTasksExistent = System.Convert.ToInt32(objNoTasksExistent);
@@ -62,8 +55,6 @@ namespace TeamHub.Fragments
                         AlertDialog.Builder alertTaskCreateSucces = new AlertDialog.Builder(this.Activity);
                         alertTaskCreateSucces.SetMessage("You have created a Task successfully !");
                         alertTaskCreateSucces.Show();
-                        Fragment_backlog.returnedTaskName = numeTask;
-                        Fragment_backlog.valuesChanged = true;
                         this.Dismiss();
                         conn.Close();
                     }

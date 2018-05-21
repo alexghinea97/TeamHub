@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MySql.Data.MySqlClient;
@@ -20,21 +13,31 @@ namespace TeamHub.Fragments
         private ListView listViewTasks;
         private List<String> tasksList;
         private ArrayAdapter<String> listAdapter;
-        public static String returnedTaskName;
-        public static bool valuesChanged = false;
         public static int option;
+        public static int idSelectedTask = -1;
 
-        public override void OnCreate(Bundle savedInstanceState)
+        public void AfiseazaTask()
         {
-            if (valuesChanged)
+            tasksList = new List<string>();
+            DataTable data = new DataTable();
+            MySqlConnection conn = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
+            if (conn.State == ConnectionState.Closed)
             {
-                listAdapter.Add(returnedTaskName);
-                listAdapter.NotifyDataSetChanged();
-                listViewTasks.ItemClick += ListViewTasks_ItemClick;
+                conn.Open();
+                MySqlCommand getTasks = new MySqlCommand("SELECT task_name FROM THTasks where id_team = " + Fragment_projects.idTeamSelected + " ;", conn);
+                MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
+                adapter.Fill(data);
+                String numeTask;
+                foreach (DataRow row in data.Rows)
+                {
+                    numeTask = row["task_name"].ToString();
+                    tasksList.Add(numeTask);
+                }
+                conn.Close();
             }
-            valuesChanged = false;
-            base.OnCreate(savedInstanceState);
-
+            listAdapter = new ArrayAdapter<string>(this.Context, Android.Resource.Layout.SimpleExpandableListItem1, tasksList);
+            listViewTasks.Adapter = listAdapter;
+            listViewTasks.ItemClick += ListViewTasks_ItemClick;
         }
 
         private void ListViewTasks_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
@@ -62,10 +65,33 @@ namespace TeamHub.Fragments
                     }
                     break;
                 case Resource.Id.deleteTask:
+                    int rownumDel = option;
+                    DataTable dataDel = new DataTable();
+                    MySqlConnection connDel = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
+                    if (connDel.State == ConnectionState.Closed)
+                    {
+                        connDel.Open();
+                        MySqlCommand getTasks = new MySqlCommand("SELECT id_task FROM THTasks where id_team = " + Fragment_projects.idTeamSelected + " ;", connDel);
+                        MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
+                        adapter.Fill(dataDel);
+                        String numeTask;
+                        foreach (DataRow row in dataDel.Rows)
+                        {
+                            if (option != 0)
+                                option--;
+                            else
+                            {
+                                idSelectedTask = System.Convert.ToInt32(row["id_task"].ToString());
+                                break;
+                            }   
+                        }
+                        MySqlCommand delTask = new MySqlCommand("DELETE FROM THTasks where id_task ="+idSelectedTask+";", connDel);
+                        delTask.ExecuteNonQuery();
+                        connDel.Close();
+                    }
                     break;
                 default: throw new NotImplementedException();
             }
-
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
