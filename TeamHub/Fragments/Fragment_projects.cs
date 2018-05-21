@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -14,23 +13,32 @@ namespace TeamHub.Fragments
         private ListView listViewProjects;
         private List<String> projectList;
         private ArrayAdapter<String> listAdapter;
-        public static String returnedTeamName;
-        public static String returnedProjectName;
-        public static bool valuesChanged = false;
         public static int idTeamSelected = -1 ;
         private int option;
 
-        public override void OnCreate(Bundle savedInstanceState)
+        public void AfiseazaEchipe()
         {
-            System.Diagnostics.Debug.WriteLine(returnedProjectName);
-            if (valuesChanged)
+            projectList = new List<string>();
+            DataTable data = new DataTable();
+            MySqlConnection conn = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
+            if (conn.State == ConnectionState.Closed)
             {
-                listAdapter.Add("Project : " + returnedProjectName + " by team " + returnedTeamName);
-                listAdapter.NotifyDataSetChanged();
-                listViewProjects.ItemClick += ListViewProjects_ItemClick;
+                conn.Open();
+                MySqlCommand getProjects = new MySqlCommand("SELECT TeamName,ProjectName FROM THTeams where id_manager = " + MainActivity.user_id + " ;", conn);
+                MySqlDataAdapter adapter = new MySqlDataAdapter(getProjects);
+                adapter.Fill(data);
+                String numeProiect, numeEchipa;
+                foreach (DataRow row in data.Rows)
+                {
+                    numeEchipa = row["TeamName"].ToString();
+                    numeProiect = row["ProjectName"].ToString();
+                    projectList.Add("Project : " + numeProiect + " - Team : " + numeEchipa);
+                }
+                conn.Close();
             }
-            valuesChanged = false;
-            base.OnCreate(savedInstanceState);
+            listAdapter = new ArrayAdapter<string>(this.Context, Android.Resource.Layout.SimpleExpandableListItem1, projectList);
+            listViewProjects.Adapter = listAdapter;
+            listViewProjects.ItemClick += ListViewProjects_ItemClick;
         }
 
         private void ListViewProjects_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
@@ -40,7 +48,6 @@ namespace TeamHub.Fragments
             popup.Inflate(Resource.Menu.popup_menu_items);
             popup.MenuItemClick += Popup_MenuItemClick;
             popup.Show();
-            
         }
 
         private void Popup_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
@@ -54,26 +61,51 @@ namespace TeamHub.Fragments
                     if (conn.State == ConnectionState.Closed)
                     {
                         conn.Open();
-                        MySqlCommand getProjects = new MySqlCommand("SELECT id_team FROM THTeams", conn);
+                        MySqlCommand getProjects = new MySqlCommand("SELECT id_team FROM THTeams where id_manager = " + MainActivity.user_id + " ;", conn);
                         MySqlDataAdapter adapter = new MySqlDataAdapter(getProjects);
                         adapter.Fill(data);
                         foreach (DataRow row in data.Rows)
                         {
-                            if (option == 0)
+                            if (rownum == 0)
                             {
                                 idTeamSelected = System.Convert.ToInt32(row["id_team"].ToString());
                                 break;
                             }
                             else
-                                option--;
+                                rownum--;
                         }
                         conn.Close();
                     }
                     break;
                 case Resource.Id.deleteTeam:
-                    AlertDialog.Builder alertRegisterSucce = new AlertDialog.Builder(this.Activity);
-                    alertRegisterSucce.SetMessage(idTeamSelected.ToString());
-                    alertRegisterSucce.Show();
+                    int rownumDel = option;
+                    DataTable dataDel = new DataTable();
+                    MySqlConnection connDel = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
+                    if (connDel.State == ConnectionState.Closed)
+                    {
+                        connDel.Open();
+                        MySqlCommand getProjectid = new MySqlCommand("SELECT id_team FROM THTeams where id_manager = " + MainActivity.user_id + " ;", connDel);
+                        MySqlDataAdapter adapter = new MySqlDataAdapter(getProjectid);
+                        adapter.Fill(dataDel);
+                        foreach (DataRow row in dataDel.Rows)
+                        {
+                            if (rownumDel == 0)
+                            {
+                                idTeamSelected = System.Convert.ToInt32(row["id_team"].ToString());
+                                break;
+                            }
+                            else
+                                rownumDel--;
+                        }
+                        MySqlCommand delProject = new MySqlCommand("DELETE FROM THTeams WHERE id_team="+idTeamSelected+";", connDel);
+                        MySqlCommand delProjectMemberOnTeam = new MySqlCommand("DELETE FROM THMembers_on_teams WHERE id_team=" + idTeamSelected + ";",connDel);
+                        MySqlCommand delProjectTasks = new MySqlCommand("DELETE FROM THTasks WHERE id_team=" + idTeamSelected + ";", connDel);
+                        delProject.ExecuteNonQuery();
+                        delProjectMemberOnTeam.ExecuteNonQuery();
+                        delProjectTasks.ExecuteNonQuery();
+                        idTeamSelected = -1;
+                        connDel.Close();
+                    }
                     break;
                 default: throw new NotImplementedException();
             }
@@ -90,7 +122,7 @@ namespace TeamHub.Fragments
             if (conn.State == ConnectionState.Closed)
             {
                 conn.Open();
-                MySqlCommand getProjects = new MySqlCommand("SELECT TeamName,ProjectName FROM THTeams", conn);
+                MySqlCommand getProjects = new MySqlCommand("SELECT TeamName,ProjectName FROM THTeams where id_manager = " + MainActivity.user_id + " ;", conn);
                 MySqlDataAdapter adapter = new MySqlDataAdapter(getProjects);
                 adapter.Fill(data);
                 String numeProiect, numeEchipa;
@@ -98,7 +130,7 @@ namespace TeamHub.Fragments
                 {
                     numeEchipa = row["TeamName"].ToString();
                     numeProiect = row["ProjectName"].ToString();
-                    projectList.Add("Project :" + numeProiect + " - team " + numeEchipa);
+                    projectList.Add("Project : " + numeProiect + " - Team : " + numeEchipa);
                 }
                 conn.Close();
             }
