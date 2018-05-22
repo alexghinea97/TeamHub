@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -118,8 +119,12 @@ namespace TeamHub.Fragments
                     MySqlConnection connDel = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
                     if (connDel.State == ConnectionState.Closed)
                     {
+                        connDel.Open();
                         MySqlCommand delTask = new MySqlCommand("DELETE FROM THTasks where id_task =" + idSelectedTask + ";", connDel);
                         delTask.ExecuteNonQuery();
+                        AlertDialog.Builder alertDelSucces = new AlertDialog.Builder(this.Activity);
+                        alertDelSucces.SetMessage("You have deleted a task !");
+                        alertDelSucces.Show();
                         connDel.Close();
                     }
                     break;
@@ -131,6 +136,9 @@ namespace TeamHub.Fragments
                         connMoveTask.Open();
                         MySqlCommand setStatus = new MySqlCommand("UPDATE THTasks SET status = 3 where id_task = " + idSelectedTask + " ;", connMoveTask);
                         setStatus.ExecuteNonQuery();
+                        AlertDialog.Builder alertDelSucces = new AlertDialog.Builder(this.Activity);
+                        alertDelSucces.SetMessage("You have moved the task to the next phase !");
+                        alertDelSucces.Show();
                         connMoveTask.Close();
                     }
                     break;

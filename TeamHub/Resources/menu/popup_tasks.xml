@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:id="@+id/asignTask"
-        android:title="Asign" />
+        android:title="Assign" />
   <item android:id="@+id/moveTask"
         android:title="Move to the next phase" />
   <item android:id="@+id/deleteTask"

@@ -70,6 +70,9 @@ namespace TeamHub.Fragments
                             if (rownum == 0)
                             {
                                 idMemberSelected = System.Convert.ToInt32(row["id_member"].ToString());
+                                AlertDialog.Builder alertDelSucces = new AlertDialog.Builder(this.Activity);
+                                alertDelSucces.SetMessage("You have selected a member !");
+                                alertDelSucces.Show();
                                 break;
                             }
                             else

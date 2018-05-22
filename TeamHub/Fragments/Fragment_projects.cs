@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -69,6 +70,9 @@ namespace TeamHub.Fragments
                             if (rownum == 0)
                             {
                                 idTeamSelected = System.Convert.ToInt32(row["id_team"].ToString());
+                                AlertDialog.Builder alertDelSucces = new AlertDialog.Builder(this.Activity);
+                                alertDelSucces.SetMessage("You have selected a team !");
+                                alertDelSucces.Show();
                                 break;
                             }
                             else
@@ -103,6 +107,9 @@ namespace TeamHub.Fragments
                         delProject.ExecuteNonQuery();
                         delProjectMemberOnTeam.ExecuteNonQuery();
                         delProjectTasks.ExecuteNonQuery();
+                        AlertDialog.Builder alertDelSucces = new AlertDialog.Builder(this.Activity);
+                        alertDelSucces.SetMessage("You have deleted a team !");
+                        alertDelSucces.Show();
                         idTeamSelected = -1;
                         connDel.Close();
                     }

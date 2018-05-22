@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f4b2"
     android:minWidth="25px"
     android:minHeight="25px">
     <TextView
@@ -13,12 +14,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtTitle"
         android:gravity="center"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
+        android:background="#d6d88f"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         app:showAsAction="always"
         android:id="@+id/listViewMembers" />
 </LinearLayout>

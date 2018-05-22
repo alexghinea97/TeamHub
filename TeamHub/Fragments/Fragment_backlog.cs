@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -118,8 +119,20 @@ namespace TeamHub.Fragments
                     if (conn.State == ConnectionState.Closed)
                     {
                         conn.Open();
-                        MySqlCommand assignTask = new MySqlCommand("UPDATE THTasks SET id_member = " + Fragment_members.idMemberSelected + " WHERE id_task = " + idSelectedTask + " ;", conn);
-                        assignTask.ExecuteNonQuery();
+                        if (Fragment_members.idMemberSelected != -1)
+                        {
+                            MySqlCommand assignTask = new MySqlCommand("UPDATE THTasks SET id_member = " + Fragment_members.idMemberSelected + " WHERE id_task = " + idSelectedTask + " ;", conn);
+                            assignTask.ExecuteNonQuery();
+                            AlertDialog.Builder alertDelSucces = new AlertDialog.Builder(this.Activity);
+                            alertDelSucces.SetMessage("You have assigned a task !");
+                            alertDelSucces.Show();
+                        }
+                        else
+                        {
+                            AlertDialog.Builder alertDelSucces = new AlertDialog.Builder(this.Activity);
+                            alertDelSucces.SetMessage("You need to select a member first !");
+                            alertDelSucces.Show();
+                        }
                         conn.Close();
                     }
                     break;
@@ -130,6 +143,9 @@ namespace TeamHub.Fragments
                         connDel.Open();
                         MySqlCommand delTask = new MySqlCommand("DELETE FROM THTasks where id_task ="+idSelectedTask+";", connDel);
                         delTask.ExecuteNonQuery();
+                        AlertDialog.Builder alertDelSucces = new AlertDialog.Builder(this.Activity);
+                        alertDelSucces.SetMessage("You have deleted a task !");
+                        alertDelSucces.Show();
                         connDel.Close();
                     }
                     break;
@@ -140,6 +156,9 @@ namespace TeamHub.Fragments
                         connMoveTask.Open();
                         MySqlCommand setStatus = new MySqlCommand("UPDATE THTasks SET status = 1 where id_task = " + idSelectedTask + " ;", connMoveTask);
                         setStatus.ExecuteNonQuery();
+                        AlertDialog.Builder alertDelSucces = new AlertDialog.Builder(this.Activity);
+                        alertDelSucces.SetMessage("You have moved the task to the next phase !");
+                        alertDelSucces.Show();
                         connMoveTask.Close();
                     }
                     break;

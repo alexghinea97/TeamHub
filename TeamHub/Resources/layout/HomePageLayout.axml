@@ -30,7 +30,7 @@
             android:choiceMode="singleChoice"
             android:divider="#818181"
             android:dividerHeight="1dp"
-            android:background="#E3F2FD"
+            android:background="#d6d88f"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:clickable="true" />
@@ -40,9 +40,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="right"
             android:choiceMode="singleChoice"
-            android:divider="#E2E2E2"
+            android:divider="#818181"
             android:dividerHeight="1dp"
-            android:background="#9E9E9E"
+            android:background="#d6d88f"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:clickable="true" />
