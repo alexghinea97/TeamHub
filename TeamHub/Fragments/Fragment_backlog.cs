@@ -24,14 +24,29 @@ namespace TeamHub.Fragments
             if (conn.State == ConnectionState.Closed)
             {
                 conn.Open();
-                MySqlCommand getTasks = new MySqlCommand("SELECT task_name FROM THTasks where id_team = " + Fragment_projects.idTeamSelected + " ;", conn);
-                MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
-                adapter.Fill(data);
-                String numeTask;
-                foreach (DataRow row in data.Rows)
+                if (Fragment_projects.idTeamSelected != -1)
                 {
-                    numeTask = row["task_name"].ToString();
-                    tasksList.Add(numeTask);
+                    MySqlCommand getTasks = new MySqlCommand("SELECT task_name FROM THTasks where id_team = " + Fragment_projects.idTeamSelected + " AND status = 0;", conn);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
+                    adapter.Fill(data);
+                    String numeTask;
+                    foreach (DataRow row in data.Rows)
+                    {
+                        numeTask = row["task_name"].ToString();
+                        tasksList.Add(numeTask);
+                    }
+                }
+                else
+                {
+                    MySqlCommand getTasks = new MySqlCommand("SELECT task_name FROM THTasks where id_member = " + MainActivity.user_id + " AND status = 0;", conn);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
+                    adapter.Fill(data);
+                    String numeTask;
+                    foreach (DataRow row in data.Rows)
+                    {
+                        numeTask = row["task_name"].ToString();
+                        tasksList.Add(numeTask);
+                    }
                 }
                 conn.Close();
             }
@@ -47,11 +62,55 @@ namespace TeamHub.Fragments
             popup.Inflate(Resource.Menu.popup_tasks);
             popup.MenuItemClick += Popup_MenuItemClick;
             popup.Show();
+        }
 
+        private void getIdTask()
+        {
+            int rownumDel = option;
+            DataTable dataDel = new DataTable();
+            MySqlConnection connDel = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
+            if (connDel.State == ConnectionState.Closed)
+            {
+                connDel.Open();
+                if (Fragment_projects.idTeamSelected != -1)
+                {
+                    MySqlCommand getTasks = new MySqlCommand("SELECT id_task FROM THTasks where id_team = " + Fragment_projects.idTeamSelected + " AND status=0;", connDel);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
+                    adapter.Fill(dataDel);
+                    foreach (DataRow row in dataDel.Rows)
+                    {
+                        if (rownumDel != 0)
+                            rownumDel--;
+                        else
+                        {
+                            idSelectedTask = System.Convert.ToInt32(row["id_task"].ToString());
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    MySqlCommand getTasks = new MySqlCommand("SELECT id_task FROM THTasks where id_member = " + MainActivity.user_id + " AND status=0;", connDel);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
+                    adapter.Fill(dataDel);
+                    foreach (DataRow row in dataDel.Rows)
+                    {
+                        if (rownumDel != 0)
+                            rownumDel--;
+                        else
+                        {
+                            idSelectedTask = System.Convert.ToInt32(row["id_task"].ToString());
+                            break;
+                        }
+                    }
+                }
+                connDel.Close();
+            }
         }
 
         private void Popup_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
         {
+            getIdTask();
             switch (e.Item.ItemId)
             {
                 case Resource.Id.asignTask:
@@ -59,35 +118,29 @@ namespace TeamHub.Fragments
                     if (conn.State == ConnectionState.Closed)
                     {
                         conn.Open();
-                        MySqlCommand assignTask = new MySqlCommand("UPDATE THTasks SET id_member = " + Fragment_members.idMemberSelected + " WHERE id_team = " + Fragment_projects.idTeamSelected + " ;", conn);
+                        MySqlCommand assignTask = new MySqlCommand("UPDATE THTasks SET id_member = " + Fragment_members.idMemberSelected + " WHERE id_task = " + idSelectedTask + " ;", conn);
                         assignTask.ExecuteNonQuery();
                         conn.Close();
                     }
                     break;
                 case Resource.Id.deleteTask:
-                    int rownumDel = option;
-                    DataTable dataDel = new DataTable();
                     MySqlConnection connDel = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
                     if (connDel.State == ConnectionState.Closed)
                     {
                         connDel.Open();
-                        MySqlCommand getTasks = new MySqlCommand("SELECT id_task FROM THTasks where id_team = " + Fragment_projects.idTeamSelected + " ;", connDel);
-                        MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
-                        adapter.Fill(dataDel);
-                        String numeTask;
-                        foreach (DataRow row in dataDel.Rows)
-                        {
-                            if (option != 0)
-                                option--;
-                            else
-                            {
-                                idSelectedTask = System.Convert.ToInt32(row["id_task"].ToString());
-                                break;
-                            }   
-                        }
                         MySqlCommand delTask = new MySqlCommand("DELETE FROM THTasks where id_task ="+idSelectedTask+";", connDel);
                         delTask.ExecuteNonQuery();
                         connDel.Close();
+                    }
+                    break;
+                case Resource.Id.moveTask:
+                    MySqlConnection connMoveTask = new MySqlConnection("server=db4free.net;port=3307;database=teamhubunibuc;user id=teamhubunibuc;password=teamhubunibuc;charset=utf8");
+                    if (connMoveTask.State == ConnectionState.Closed)
+                    {
+                        connMoveTask.Open();
+                        MySqlCommand setStatus = new MySqlCommand("UPDATE THTasks SET status = 1 where id_task = " + idSelectedTask + " ;", connMoveTask);
+                        setStatus.ExecuteNonQuery();
+                        connMoveTask.Close();
                     }
                     break;
                 default: throw new NotImplementedException();
@@ -104,14 +157,29 @@ namespace TeamHub.Fragments
             if (conn.State == ConnectionState.Closed)
             {
                 conn.Open();
-                MySqlCommand getTasks = new MySqlCommand("SELECT task_name FROM THTasks where id_team = " + Fragment_projects.idTeamSelected + " ;", conn);
-                MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
-                adapter.Fill(data);
-                String numeTask;
-                foreach (DataRow row in data.Rows)
+                if (Fragment_projects.idTeamSelected != -1)
                 {
-                    numeTask = row["task_name"].ToString();
-                    tasksList.Add(numeTask);
+                    MySqlCommand getTasks = new MySqlCommand("SELECT task_name FROM THTasks where id_team = " + Fragment_projects.idTeamSelected + " AND status=0;", conn);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
+                    adapter.Fill(data);
+                    String numeTask;
+                    foreach (DataRow row in data.Rows)
+                    {
+                        numeTask = row["task_name"].ToString();
+                        tasksList.Add(numeTask);
+                    }
+                }
+                else
+                {
+                    MySqlCommand getTasks = new MySqlCommand("SELECT task_name FROM THTasks where id_member = " + MainActivity.user_id + " AND status = 0;", conn);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(getTasks);
+                    adapter.Fill(data);
+                    String numeTask;
+                    foreach (DataRow row in data.Rows)
+                    {
+                        numeTask = row["task_name"].ToString();
+                        tasksList.Add(numeTask);
+                    }
                 }
                 conn.Close();
             }

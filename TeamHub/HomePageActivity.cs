@@ -83,6 +83,7 @@ namespace TeamHub
             leftMenuDataSet.Add("In Review");
             leftMenuDataSet.Add("In Testing");
             leftMenuDataSet.Add("Done");
+            leftMenuDataSet.Add("Sign out");
             leftMenuAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, leftMenuDataSet);
             hLeftDrawer.Adapter = leftMenuAdapter;
 
@@ -137,22 +138,36 @@ namespace TeamHub
                 case 3:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentInDevelopment);
+                    fragmentInDevelopment.AfiseazaTask();
                     fragmentCurent = fragmentInDevelopment;
                     break;
                 case 4:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentInReview);
+                    fragmentInReview.AfiseazaTask();
                     fragmentCurent = fragmentInReview;
                     break;
                 case 5:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentInTesting);
+                    fragmentInTesting.AfiseazaTask();
                     fragmentCurent = fragmentInTesting;
                     break;
                 case 6:
                     hDrawerLayout.CloseDrawer(hLeftDrawer);
                     ShowFragment(fragmentDone);
+                    fragmentDone.AfiseazaTask();
                     fragmentCurent = fragmentDone;
+                    break;
+                case 7:
+                    Fragments.Fragment_projects.idTeamSelected = -1;
+                    Fragments.Fragment_members.idMemberSelected = -1;
+                    MainActivity.user_id = -1;
+                    Fragments.Fragment_backlog.idSelectedTask = -1;
+                    Fragments.Fragment_in_development.idSelectedTask = -1;
+                    Fragments.Fragment_in_review.idSelectedTask = -1;
+                    Fragments.Fragment_in_testing.idSelectedTask = -1;
+                    this.Finish();
                     break;
                 default: throw new System.NotImplementedException();
             }
